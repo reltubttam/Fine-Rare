@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  app:
+    image: events
+    build: .
+    volumes:
+      - ./:/dist/
+    ports:
+      - 3000:3000
+    command: node .
+    environment:
+      PORT: 3000
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
