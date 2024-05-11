@@ -11,3 +11,18 @@ npm i && npm run build && docker compose build
 ```
 docker compose up
 ```
+
+### tests
+```
+npm t
+```
+
+### linting
+```
+npm run lint
+```
+
+### fix linting
+```
+npm run lint -- --fix
+```
