@@ -5,18 +5,21 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "build": "rimraf \"dist/**/*.js\" && tsc",
+    "build": "rimraf --glob \"dist/**/*\" && copyfiles -uf \"src/graphQl/schema.graphql\" \"dist/graphQl\" && tsc",
     "lint": "eslint . --ext .ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/graphql": "^14.5.0",
     "@types/jest": "^29.5.12",
     "@types/mongodb": "^4.0.7",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.12.11",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
@@ -26,6 +29,9 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "express": "^4.19.2",
+    "graphql": "^16.8.1",
+    "graphql-http": "^1.22.1",
     "mongoose": "^8.3.4"
   }
 }

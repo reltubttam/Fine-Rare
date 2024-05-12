@@ -1,9 +1,23 @@
-import mongoose from 'mongoose';
+import express from 'express';
+import mongoose from './db';
+import graphQlHandler from './graphQl';
+import { PORT } from './config';
 
-const MONGO_URL = 'mongodb://mongo:27017';
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB');
+});
 
-mongoose.connect(MONGO_URL).then(() => console.log(`connected to MONGO_URL: ${MONGO_URL}`));
+const app = express();
 
-export default mongoose;
+app.all('/', graphQlHandler);
 
-console.log('!');
+const runningApp = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+function gracefulShutdown() {
+  runningApp.close();
+  mongoose.connection.close()
+}
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', gracefulShutdown);
