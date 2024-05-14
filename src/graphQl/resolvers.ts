@@ -4,8 +4,8 @@ interface IProduct {
   _id?: mongoose.Types.ObjectId
   vintage: string
   name: string
-  producerId: mongoose.Types.ObjectId
-  producer: IProducer
+  producerId?: mongoose.Types.ObjectId
+  producer?: IProducer
 }
 
 interface IProducer {
@@ -40,10 +40,21 @@ export async function getProductsByProducer({ id: producerId }: { id: string }) 
     throw err;
   }
 }
-export async function createProducts(products: IProduct[]) {
+export async function createProducts({ products }: { products:IProduct[] }) {
   try {
-    console.log({products})
-    const createdProducts:IProduct[] = await Product.insertMany(products);
+    const createdProducts:IProduct[] = await Product.insertMany(products.map((product) => {
+      const producer = product.producer ? {
+        ...product.producer,
+        _id: new mongoose.mongo.ObjectId(product.producer._id),
+      } : undefined;
+      return {
+        ...product,
+        producerId: product.producerId
+          ? new mongoose.mongo.ObjectId(product.producerId)
+          : undefined,
+        producer,
+      };
+    }));
     return createdProducts;
   } catch (err) {
     console.error(err);

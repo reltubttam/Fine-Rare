@@ -17,7 +17,7 @@ const runningApp = app.listen(PORT, () => {
 
 function gracefulShutdown() {
   runningApp.close();
-  mongoose.connection.close()
+  mongoose.connection.close();
 }
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);

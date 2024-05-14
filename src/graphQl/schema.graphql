@@ -32,7 +32,7 @@
   }
 
   type Mutation {
-    createProducts(products: [ProductInput!]!): [Product]!
+    createProducts(products: [ProductInput!]!): [Product]
     updateProduct(product: ProductInput!): Product!
     deleteUser(_id: String!): Boolean!
   }
