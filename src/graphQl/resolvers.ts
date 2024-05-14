@@ -15,13 +15,13 @@ interface IProducer {
   region?: string
 }
 
-export async function getProduct({ id }: { id: string }) {
+export async function getProduct({ _id }: { _id: string }) {
   try {
-    const product = await Product.findById(id);
+    const product = await Product.findById(_id);
     if (product?.producerId) {
       const producer = await Producer.findById(product.producerId);
       return {
-        ...product,
+        ...product.toJSON(),
         producer,
       };
     }
@@ -31,7 +31,7 @@ export async function getProduct({ id }: { id: string }) {
     throw err;
   }
 }
-export async function getProductsByProducer({ id: producerId }: { id: string }) {
+export async function getProductsByProducer({ _id: producerId }: { _id: string }) {
   try {
     const products = await Product.find({ producerId });
     return products;
@@ -61,24 +61,24 @@ export async function createProducts({ products }: { products:IProduct[] }) {
     throw err;
   }
 }
-export async function updateProduct(product: IProduct) {
+export async function updateProduct({ _id, product }: { _id:string, product: IProduct }) {
   try {
-    if (!product._id) {
-      throw new Error('_id required');
-    }
-    const updatedProduct = await Product.findOneAndUpdate({ _id: product._id }, {
+    const updatedProduct = await Product.findOneAndUpdate({ _id }, {
       ...product,
       _id: undefined,
-    });
+    }, { new: true });
+    if (!updatedProduct) {
+      throw new Error('product not found');
+    }
     return updatedProduct;
   } catch (err) {
     console.error(err);
     throw err;
   }
 }
-export async function deleteUser({ id }: { id: string }) {
+export async function deleteProduct({ _id }: { _id: string }) {
   try {
-    await Product.findOneAndDelete({ _id: id });
+    await Product.findOneAndDelete({ _id });
     return true;
   } catch (err) {
     console.error(err);
