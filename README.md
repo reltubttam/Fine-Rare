@@ -74,3 +74,9 @@ curl --location 'localhost:3000/' \
     "query": "query {getProductsByProducer(_id: \"<PRODUCT _ID>\"){<RESPONSE FIELDS>}}"
 }'
 ```
+
+### Upload CSV file
+```
+curl --location 'localhost:3000/csv' \
+--form 'file=@"./testData/example.csv"'
+```

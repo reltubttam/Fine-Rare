@@ -1,6 +1,8 @@
 import express from 'express';
+import Busboy from 'connect-busboy';
 import mongoose from './db';
 import graphQlHandler from './graphQl';
+import csvUploadRoute from './routes/csvUpload';
 import { PORT } from './config';
 
 mongoose.connection.once('open', () => {
@@ -8,8 +10,8 @@ mongoose.connection.once('open', () => {
 });
 
 const app = express();
-
 app.all('/', graphQlHandler);
+app.post('/csv', Busboy(), csvUploadRoute);
 
 const runningApp = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

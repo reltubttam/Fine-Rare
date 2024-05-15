@@ -32,6 +32,58 @@ const producerSchema = new mongoose.Schema({
     required: false,
   },
 });
+
+const detailedProductSchema = new mongoose.Schema({
+  ID: {
+    type: String,
+    unique: true,
+  },
+  products: [
+    {
+      Vintage: {
+        type: Number,
+      },
+      'Product Name': {
+        type: String,
+      },
+      Producer: {
+        type: String,
+      },
+      Country: {
+        type: String,
+      },
+      Region: {
+        type: String,
+      },
+      Colour: {
+        type: String,
+      },
+      Quantity: {
+        type: Number,
+      },
+      Format: {
+        type: String,
+      },
+      'Price (GBP)': {
+        type: String,
+      },
+      Duty: {
+        type: String,
+      },
+      Availability: {
+        type: String,
+      },
+      Conditions: {
+        type: String,
+      },
+      ImageUrl: {
+        type: String,
+      },
+    },
+  ],
+});
+
 export const Product = mongoose.model('Product', productSchema);
 export const Producer = mongoose.model('Producer', producerSchema);
+export const detailedProduct = mongoose.model('detailedProduct', detailedProductSchema);
 export default mongoose;

@@ -11,6 +11,7 @@ services:
     command: node .
     environment:
       PORT: 3000
+      BATCH_SIZE: 100
     depends_on:
       - mongo
   mongo:
